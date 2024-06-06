@@ -1,6 +1,5 @@
 package com.customer.customer.controllers;
 import com.customer.customer.entities.Customer;
-import com.customer.customer.services.CustomerService;
 import com.customer.customer.services.CustomerServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +14,8 @@ import java.util.List;
  */
 
 @RestController
+
+@CrossOrigin(origins = "*")
 public class CustomerController {
 
     @Autowired
