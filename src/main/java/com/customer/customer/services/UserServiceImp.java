@@ -2,9 +2,11 @@ package com.customer.customer.services;
 
 import com.customer.customer.entities.User;
 import com.customer.customer.repository.UserRepository;
+import com.google.common.hash.Hashing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +19,12 @@ import java.util.Optional;
  */
 
 @Service
-public class UserServiceImp {
+public class UserServiceImp implements UserService {
 
     @Autowired
     private UserRepository repository;
+
+    private static final String SECRET_KEY ="j64ydu29ed";
 
 
     public User getUser(Integer id) {
@@ -49,6 +53,10 @@ public class UserServiceImp {
     }
 
     public void addUser(User user) {
+        String hashPassword = Hashing.sha256()
+                        .hashString(user.getPassword() +  SECRET_KEY, StandardCharsets.UTF_8)
+                                .toString();
+        user.setPassword(hashPassword);
         repository.save(user);
 
 
